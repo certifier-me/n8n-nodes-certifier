@@ -1,7 +1,16 @@
 import type { ILoadOptionsFunctions, INodePropertyOptions } from 'n8n-workflow';
 
-import { certifierApiRequest } from '../shared/transport';
-import type { CertifierAttribute } from '../shared/types';
+import { certifierApiRequest, fetchAllPages } from '../shared/transport';
+import type { CertifierAttribute, CertifierDesign } from '../shared/types';
+
+export async function getDesigns(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+	const designs = await fetchAllPages<CertifierDesign>(this, '/designs');
+
+	return designs.map((design) => ({
+		name: `${design.name} (${design.type === 'badge' ? 'Badge' : 'Certificate'})`,
+		value: design.id,
+	}));
+}
 
 export async function getCustomAttributes(
 	this: ILoadOptionsFunctions,

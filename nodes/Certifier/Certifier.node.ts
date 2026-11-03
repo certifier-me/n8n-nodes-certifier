@@ -9,9 +9,11 @@ import {
 } from 'n8n-workflow';
 
 import { searchGroups } from './methods/listSearch';
-import { getCustomAttributes } from './methods/loadOptions';
+import { getCustomAttributes, getDesigns } from './methods/loadOptions';
 import { credentialDescription } from './resources/credential';
 import { executeCredentialOperation } from './resources/credential/execute';
+import { groupDescription } from './resources/group';
+import { executeGroupOperation } from './resources/group/execute';
 
 export class Certifier implements INodeType {
 	description: INodeTypeDescription = {
@@ -45,16 +47,22 @@ export class Certifier implements INodeType {
 						name: 'Credential',
 						value: 'credential',
 					},
+					{
+						name: 'Credential Template',
+						value: 'group',
+					},
 				],
 				default: 'credential',
 			},
 			...credentialDescription,
+			...groupDescription,
 		],
 	};
 
 	methods = {
 		loadOptions: {
 			getCustomAttributes,
+			getDesigns,
 		},
 		listSearch: {
 			searchGroups,
@@ -64,11 +72,15 @@ export class Certifier implements INodeType {
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
 		const returnData: INodeExecutionData[] = [];
+		const resource = this.getNodeParameter('resource', 0) as string;
 		const operation = this.getNodeParameter('operation', 0) as string;
 
 		for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
 			try {
-				const responseData = await executeCredentialOperation.call(this, operation, itemIndex);
+				const responseData =
+					resource === 'group'
+						? await executeGroupOperation.call(this, itemIndex)
+						: await executeCredentialOperation.call(this, operation, itemIndex);
 
 				returnData.push(
 					...this.helpers.constructExecutionMetaData(this.helpers.returnJsonArray(responseData), {
