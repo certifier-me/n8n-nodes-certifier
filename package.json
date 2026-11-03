@@ -38,7 +38,8 @@
 			"dist/credentials/CertifierApi.credentials.js"
 		],
 		"nodes": [
-			"dist/nodes/Certifier/Certifier.node.js"
+			"dist/nodes/Certifier/Certifier.node.js",
+			"dist/nodes/CertifierTrigger/CertifierTrigger.node.js"
 		]
 	},
 	"devDependencies": {
