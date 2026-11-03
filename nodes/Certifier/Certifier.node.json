@@ -1,0 +1,18 @@
+{
+	"node": "n8n-nodes-certifier.certifier",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Productivity", "Marketing & Content"],
+	"resources": {
+		"credentialDocumentation": [
+			{
+				"url": "https://github.com/certifier-me/n8n-nodes-certifier?tab=readme-ov-file#credentials"
+			}
+		],
+		"primaryDocumentation": [
+			{
+				"url": "https://github.com/certifier-me/n8n-nodes-certifier?tab=readme-ov-file"
+			}
+		]
+	}
+}

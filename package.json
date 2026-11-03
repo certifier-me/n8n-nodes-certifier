@@ -37,7 +37,9 @@
 		"credentials": [
 			"dist/credentials/CertifierApi.credentials.js"
 		],
-		"nodes": []
+		"nodes": [
+			"dist/nodes/Certifier/Certifier.node.js"
+		]
 	},
 	"devDependencies": {
 		"@n8n/node-cli": "*",
